@@ -3,11 +3,14 @@ package server
 import (
 	"net/http"
 
+	sector "go-atlas-corp/domain/sector"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
 
 type Server struct {
+	Sector sector.Sector
 }
 
 func NewRouter(s *Server) *chi.Mux {
