@@ -11,7 +11,7 @@ type Coordinates struct {
 	Vel float64
 }
 
-func (s Sector) CalculateLocation(input Coordinates) (float64, error) {
+func (s Sector) CalculateLocation(input Coordinates) float64 {
 	sectorID := float64(s.ID)
-	return input.X*sectorID + input.Y*sectorID + input.Z*sectorID + input.Vel, nil
+	return input.X*sectorID + input.Y*sectorID + input.Z*sectorID + input.Vel
 }
