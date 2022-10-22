@@ -17,5 +17,7 @@ func NewRouter(s *Server) *chi.Mux {
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Server is running"))
 	})
+	r.Post("/location", s.fetchLoc)
+
 	return r
 }
