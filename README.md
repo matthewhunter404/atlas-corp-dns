@@ -18,5 +18,5 @@ Request:
 
 Response:
 {
-    "loc": "123"
+    "loc": 1389.57
 }

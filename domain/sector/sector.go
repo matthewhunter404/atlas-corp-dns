@@ -1,4 +1,6 @@
-package Sector
+package sector
+
+import "math"
 
 type Sector struct {
 	ID uint
@@ -13,5 +15,5 @@ type Coordinates struct {
 
 func (s Sector) CalculateLocation(input Coordinates) float64 {
 	sectorID := float64(s.ID)
-	return input.X*sectorID + input.Y*sectorID + input.Z*sectorID + input.Vel
+	return math.Floor((input.X*sectorID+input.Y*sectorID+input.Z*sectorID+input.Vel)*100) / 100
 }

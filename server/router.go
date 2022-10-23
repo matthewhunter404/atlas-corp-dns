@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	sector "go-atlas-corp/domain/sector"
+	"go-atlas-corp/domain/sector"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
