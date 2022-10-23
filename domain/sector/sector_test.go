@@ -3,6 +3,8 @@ package sector_test
 import (
 	"go-atlas-corp/domain/sector"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCalculateLocation(t *testing.T) {
@@ -17,7 +19,5 @@ func TestCalculateLocation(t *testing.T) {
 	}
 	want := 1389.57
 	got := testSector.CalculateLocation(testInput)
-	if got != want {
-		t.Errorf("got %v want %v", got, want)
-	}
+	assert.Equal(t, got, want)
 }
