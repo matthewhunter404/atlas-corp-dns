@@ -65,6 +65,7 @@ func (s *server) fetchLoc(w http.ResponseWriter, r *http.Request) {
 	}
 	location := s.Sector.CalculateLocation(coords)
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	responseJson, err := json.Marshal(locationResult{
 		Loc: location,
@@ -73,6 +74,6 @@ func (s *server) fetchLoc(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Error, please contact support", http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
+
 	w.Write(responseJson)
 }

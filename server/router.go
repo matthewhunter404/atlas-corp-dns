@@ -32,7 +32,9 @@ func (s *server) Router() *chi.Mux {
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Server is running"))
 	})
-	r.Post("/location", s.fetchLoc)
+	r.Route("/v1", func(r chi.Router) {
+		r.Post("/location", s.fetchLoc)
+	})
 
 	return r
 }

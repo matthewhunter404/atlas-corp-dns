@@ -22,7 +22,7 @@ If not set the program will revert to using default values of SectorID = 1 and P
 
 ## API
 API runs on port 3000 by default
-### POST /location
+### POST /v1/location
 
 Request:
 ```json
