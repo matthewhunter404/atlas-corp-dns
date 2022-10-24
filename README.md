@@ -2,10 +2,17 @@
 
 ## Running
 To run this program, run this from the project root in the terminal:
+```console
 go run main.go
+```
+
+To run the project in a docker container:
+```console
+docker-compose up -d
+```
 
 ## API
-API runs on port 3000
+API runs on port 3000 by default
 ### POST /location
 
 Request:
