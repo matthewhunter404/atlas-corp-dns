@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFetchLoc(t *testing.T) {
+func TestFetchLoc_Success(t *testing.T) {
 	requestBody, err := json.Marshal(locationRequest{
 		X:   123.12,
 		Y:   456.56,
@@ -41,4 +41,21 @@ func TestFetchLoc(t *testing.T) {
 	}
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Equal(t, 1389.57, result.Loc)
+}
+
+func TestFetchLoc_BadRequest(t *testing.T) {
+	testRequestBody := []byte("\"x\": 123.12,\"y\": 456.56,\"z\": 789.89,\"vel\": 20.0")
+	req := httptest.NewRequest("POST", "/location", bytes.NewReader(testRequestBody))
+	w := httptest.NewRecorder()
+	sector := sector.New(uint(1))
+
+	newServer := server{
+		Sector: sector,
+	}
+
+	newServer.Router().ServeHTTP(w, req)
+
+	resp := w.Result()
+
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
 }

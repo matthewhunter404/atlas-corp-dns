@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	sector "go-atlas-corp/domain/sector"
 	"net/http"
 )
@@ -27,7 +26,6 @@ func (s *server) fetchLoc(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Invalid request body JSON"))
 		return
 	}
-	fmt.Printf("req: %+v\n", req)
 
 	coords := sector.Coordinates{
 		X:   req.X,
