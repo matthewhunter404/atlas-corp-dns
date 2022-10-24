@@ -23,6 +23,7 @@ func New(sectorID uint) Sector {
 	}
 }
 
+// CalculateLocation handles the business logic of calcuting a location
 func (s sector) CalculateLocation(input Coordinates) float64 {
 	sectorID := float64(s.ID)
 	return math.Floor((input.X*sectorID+input.Y*sectorID+input.Z*sectorID+input.Vel)*100) / 100

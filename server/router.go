@@ -24,6 +24,7 @@ func New(sector sector.Sector) Server {
 	}
 }
 
+// Router returns a go-chi mux that can be passed to http.ListenAndServe()
 func (s *server) Router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)

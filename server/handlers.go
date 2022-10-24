@@ -19,6 +19,9 @@ type locationResult struct {
 	Loc float64 `json:"loc"`
 }
 
+// Validate adds a layer of validation not available in the standard Go JSON package,
+// checking the locationRequest inputs to ensure none are missing. This effectively
+// acts as a counterpart to DisallowUnknownFields()
 func (lr locationRequest) Validate() error {
 	if lr.X == nil {
 		return errors.New("invalid input, X value missing")
@@ -35,10 +38,12 @@ func (lr locationRequest) Validate() error {
 	return nil
 }
 
-// fetchLoc is a handler function stub
+// fetchLoc is a handler function that calls the sector method CalculateLocation()
 func (s *server) fetchLoc(w http.ResponseWriter, r *http.Request) {
 	var req locationRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid request body JSON"))
