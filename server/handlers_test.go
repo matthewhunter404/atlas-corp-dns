@@ -63,3 +63,29 @@ func TestFetchLoc_BadRequest(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
 }
+
+func TestValidate_Invalid(t *testing.T) {
+	req := locationRequest{
+		X:   nil,
+		Y:   nil,
+		Z:   nil,
+		Vel: nil,
+	}
+	err := req.Validate()
+	assert.NotNil(t, err)
+}
+
+func TestValidate_Valid(t *testing.T) {
+	x := 1.0
+	y := 2.0
+	z := 3.0
+	vel := 0.0
+	req := locationRequest{
+		X:   &x,
+		Y:   &y,
+		Z:   &z,
+		Vel: &vel,
+	}
+	err := req.Validate()
+	assert.Nil(t, err)
+}
