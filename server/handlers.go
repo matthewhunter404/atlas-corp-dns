@@ -19,7 +19,7 @@ type locationResult struct {
 }
 
 // fetchLoc is a handler function stub
-func (s *Server) fetchLoc(w http.ResponseWriter, r *http.Request) {
+func (s *server) fetchLoc(w http.ResponseWriter, r *http.Request) {
 	var req locationRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {

@@ -24,15 +24,13 @@ func TestFetchLoc(t *testing.T) {
 
 	req := httptest.NewRequest("POST", "/location", bytes.NewReader(requestBody))
 	w := httptest.NewRecorder()
-	sector := sector.Sector{
-		ID: uint(1),
-	}
-	newServer := Server{
+	sector := sector.New(uint(1))
+
+	newServer := server{
 		Sector: sector,
 	}
-	r := NewRouter(&newServer)
 
-	r.ServeHTTP(w, req)
+	newServer.Router().ServeHTTP(w, req)
 
 	resp := w.Result()
 

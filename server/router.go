@@ -9,11 +9,22 @@ import (
 	"github.com/go-chi/chi/middleware"
 )
 
-type Server struct {
+type Server interface {
+	fetchLoc(w http.ResponseWriter, r *http.Request)
+	Router() *chi.Mux
+}
+
+type server struct {
 	Sector sector.Sector
 }
 
-func NewRouter(s *Server) *chi.Mux {
+func New(sector sector.Sector) Server {
+	return &server{
+		Sector: sector,
+	}
+}
+
+func (s *server) Router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 

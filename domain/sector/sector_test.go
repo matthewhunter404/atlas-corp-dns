@@ -8,9 +8,7 @@ import (
 )
 
 func TestCalculateLocation(t *testing.T) {
-	testSector := sector.Sector{
-		ID: 1,
-	}
+	testSector := sector.New(1)
 	testInput := sector.Coordinates{
 		X:   123.12,
 		Y:   456.56,
