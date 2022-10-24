@@ -8,6 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	sectormock "go-atlas-corp/domain/sector/mocks"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,14 +30,12 @@ func TestFetchLoc_Success(t *testing.T) {
 
 	req := httptest.NewRequest("POST", "/location", bytes.NewReader(requestBody))
 	w := httptest.NewRecorder()
-	sector := sector.New(uint(1))
 
-	newServer := server{
-		Sector: sector,
-	}
+	mockSector := new(sectormock.MockSector)
+	mockSector.On("CalculateLocation", sector.Coordinates{X: 123.12, Y: 456.56, Z: 789.89, Vel: 20.0}).Return(float64(1389.57))
+	newServer := New(mockSector)
 
 	newServer.Router().ServeHTTP(w, req)
-
 	resp := w.Result()
 
 	var result locationResult
@@ -43,6 +43,7 @@ func TestFetchLoc_Success(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Equal(t, 1389.57, result.Loc)
 }
@@ -51,14 +52,13 @@ func TestFetchLoc_BadRequest(t *testing.T) {
 	testRequestBody := []byte("\"x\": 123.12,\"y\": 456.56,\"z\": 789.89,\"vel\": 20.0")
 	req := httptest.NewRequest("POST", "/location", bytes.NewReader(testRequestBody))
 	w := httptest.NewRecorder()
-	sector := sector.New(uint(1))
 
+	mockSector := new(sectormock.MockSector)
 	newServer := server{
-		Sector: sector,
+		Sector: mockSector,
 	}
 
 	newServer.Router().ServeHTTP(w, req)
-
 	resp := w.Result()
 
 	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
