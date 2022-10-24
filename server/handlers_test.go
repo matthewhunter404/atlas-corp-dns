@@ -12,11 +12,15 @@ import (
 )
 
 func TestFetchLoc_Success(t *testing.T) {
+	x := 123.12
+	y := 456.56
+	z := 789.89
+	vel := 20.0
 	requestBody, err := json.Marshal(locationRequest{
-		X:   123.12,
-		Y:   456.56,
-		Z:   789.89,
-		Vel: 20.0,
+		X:   &x,
+		Y:   &y,
+		Z:   &z,
+		Vel: &vel,
 	})
 	if err != nil {
 		t.Error(err)

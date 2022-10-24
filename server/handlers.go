@@ -2,19 +2,37 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	sector "go-atlas-corp/domain/sector"
 	"net/http"
 )
 
 type locationRequest struct {
-	X   float64 `json:"x,string"`
-	Y   float64 `json:"y,string"`
-	Z   float64 `json:"z,string"`
-	Vel float64 `json:"vel,string"`
+	X   *float64 `json:"x,string"`
+	Y   *float64 `json:"y,string"`
+	Z   *float64 `json:"z,string"`
+	Vel *float64 `json:"vel,string"`
 }
 
 type locationResult struct {
 	Loc float64 `json:"loc"`
+}
+
+func (lr locationRequest) Validate() error {
+	if lr.X == nil {
+		return errors.New("invalid input, X value missing")
+	}
+	if lr.Y == nil {
+		return errors.New("invalid input, Y value missing")
+	}
+	if lr.Z == nil {
+		return errors.New("invalid input, Z value missing")
+	}
+	if lr.Vel == nil {
+		return errors.New("invalid input, Vel value missing")
+	}
+	return nil
 }
 
 // fetchLoc is a handler function stub
@@ -27,11 +45,18 @@ func (s *server) fetchLoc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = req.Validate()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err)))
+		return
+	}
+
 	coords := sector.Coordinates{
-		X:   req.X,
-		Y:   req.Y,
-		Z:   req.Z,
-		Vel: req.Vel,
+		X:   *req.X,
+		Y:   *req.Y,
+		Z:   *req.Z,
+		Vel: *req.Vel,
 	}
 	location := s.Sector.CalculateLocation(coords)
 
