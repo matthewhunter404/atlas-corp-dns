@@ -8,3 +8,6 @@ services:
       target: dns
     ports:
       - "3000:3000"
+    environment:
+      atlas_dns_sector_id: 1
+      atlas_dns_port: 3000
