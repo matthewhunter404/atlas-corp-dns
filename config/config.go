@@ -9,7 +9,11 @@ import (
 type Fields struct {
 	SectorID uint
 	Port     int
+	APIMode  string
 }
+
+const APIModeREST = "REST"
+const APIModeGPRC = "GPRC"
 
 func Load() Fields {
 	//Load up default values
@@ -19,7 +23,7 @@ func Load() Fields {
 	}
 	sectorIDEnv := os.Getenv("atlas_dns_sector_id")
 	if sectorIDEnv != "" {
-		sid, err := strconv.Atoi(os.Getenv("atlas_dns_sector_id"))
+		sid, err := strconv.Atoi(sectorIDEnv)
 		if err != nil {
 			log.Fatalf("Invalid sector ID env variable detected, error: %v", err)
 		}
@@ -28,11 +32,20 @@ func Load() Fields {
 
 	portEnv := os.Getenv("atlas_dns_port")
 	if portEnv != "" {
-		port, err := strconv.Atoi(os.Getenv("atlas_dns_port"))
+		port, err := strconv.Atoi(portEnv)
 		if err != nil {
 			log.Fatalf("Invalid port env variable detected, error: %v", err)
 		}
 		fields.Port = port
+	}
+	apiModeEnv := os.Getenv("api_mode")
+	switch apiModeEnv {
+	case APIModeGPRC:
+		fields.APIMode = apiModeEnv
+	case APIModeREST:
+		fields.APIMode = apiModeEnv
+	default:
+		log.Fatal("Invalid mode")
 	}
 	return fields
 }

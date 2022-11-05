@@ -4,14 +4,23 @@ import (
 	"fmt"
 	"go-atlas-corp/config"
 	"go-atlas-corp/domain/sector"
+	"go-atlas-corp/grpcserver"
 	"go-atlas-corp/server"
+	"log"
 	"net/http"
 )
 
 func main() {
 	fmt.Println("Server starting...")
-	config := config.Load()
-	sector := sector.New(config.SectorID)
+	conf := config.Load()
+	sector := sector.New(conf.SectorID)
 	newServer := server.New(sector)
-	http.ListenAndServe(fmt.Sprintf(":%d", config.Port), newServer.Router())
+	switch conf.APIMode {
+	case config.APIModeGPRC:
+		grpcserver.NewGRPC(conf.Port, sector)
+	case config.APIModeREST:
+		http.ListenAndServe(fmt.Sprintf(":%d", conf.Port), newServer.Router())
+	default:
+		log.Fatal("Invalid mode")
+	}
 }

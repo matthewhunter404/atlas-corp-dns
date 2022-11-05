@@ -1,0 +1,19 @@
+syntax = "proto3";
+package dns;
+
+option go_package = "proto/dns;dns";
+
+service SectorService {
+  rpc CalculateLocation (LocationRequest) returns (LocationResult) {}
+}
+
+message LocationRequest {
+  string X = 1;
+  string Y = 2;
+  string Z = 3;
+  string Vel = 4;
+}
+
+message LocationResult {
+  double Loc = 1;
+}
