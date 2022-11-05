@@ -13,7 +13,7 @@ type Fields struct {
 }
 
 const APIModeREST = "REST"
-const APIModeGPRC = "GPRC"
+const APIModeGRPC = "GRPC"
 
 func Load() Fields {
 	//Load up default values
@@ -40,7 +40,7 @@ func Load() Fields {
 	}
 	apiModeEnv := os.Getenv("api_mode")
 	switch apiModeEnv {
-	case APIModeGPRC:
+	case APIModeGRPC:
 		fields.APIMode = apiModeEnv
 	case APIModeREST:
 		fields.APIMode = apiModeEnv

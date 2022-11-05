@@ -18,7 +18,7 @@ func NewGRPC(port int, sector sector.Sector) {
 
 	s := grpc.NewServer()
 
-	dns.RegisterSectorServiceServer(s, &sectorGPRC{sector, dns.UnimplementedSectorServiceServer{}})
+	dns.RegisterSectorServiceServer(s, &sectorGRPC{sector, dns.UnimplementedSectorServiceServer{}})
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)

@@ -14,11 +14,13 @@ func main() {
 	fmt.Println("Server starting...")
 	conf := config.Load()
 	sector := sector.New(conf.SectorID)
-	newServer := server.New(sector)
 	switch conf.APIMode {
-	case config.APIModeGPRC:
+	case config.APIModeGRPC:
+		fmt.Printf("GRPC interface listening on port: %d\n", conf.Port)
 		grpcserver.NewGRPC(conf.Port, sector)
 	case config.APIModeREST:
+		fmt.Printf("REST interface listening on port: %d\n", conf.Port)
+		newServer := server.New(sector)
 		http.ListenAndServe(fmt.Sprintf(":%d", conf.Port), newServer.Router())
 	default:
 		log.Fatal("Invalid mode")

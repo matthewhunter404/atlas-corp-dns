@@ -7,12 +7,12 @@ import (
 	"strconv"
 )
 
-type sectorGPRC struct {
+type sectorGRPC struct {
 	sector sector.Sector
 	dns.UnimplementedSectorServiceServer
 }
 
-func (s *sectorGPRC) CalculateLocation(ctx context.Context, req *dns.LocationRequest) (*dns.LocationResult, error) {
+func (s *sectorGRPC) CalculateLocation(ctx context.Context, req *dns.LocationRequest) (*dns.LocationResult, error) {
 	x, err := strconv.ParseFloat(req.X, 32)
 	if err != nil {
 		return nil, err

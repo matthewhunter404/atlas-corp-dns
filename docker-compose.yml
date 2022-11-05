@@ -11,3 +11,4 @@ services:
     environment:
       atlas_dns_sector_id: 1
       atlas_dns_port: 3000
+      api_mode: GRPC
